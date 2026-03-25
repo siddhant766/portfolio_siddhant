@@ -64,6 +64,7 @@
   box-shadow: 0 0 0.5px 1.5px transparent;
   color: var(--t2);
   font-family: var(--mono);
+  z-index: 3; /* ensure text stays above effects */
 }
 
 .gooey-nav-container .gooey-nav-inner ul li a {
@@ -72,10 +73,25 @@
   text-decoration: none;
   color: inherit;
   font-size: 0.95rem;
+  position: relative;
+  z-index: 4; /* keep link text above any effect layers */
 }
 
 .gooey-nav-container .gooey-nav-inner ul li:focus-within:has(:focus-visible) {
   box-shadow: 0 0 0.5px 1.5px var(--t1);
+}
+
+/* Light Mode Overrides */
+[data-theme="light"] .gooey-nav-container .gooey-nav-inner ul li {
+  color: var(--t1);
+}
+
+[data-theme="light"] .gooey-nav-container .gooey-nav-inner ul li:focus-within:has(:focus-visible) {
+  box-shadow: 0 0 0.5px 1.5px var(--t2);
+}
+
+[data-theme="light"] .gooey-nav-container .gooey-nav-inner ul li::after {
+  background: var(--t2);
 }
 
 .gooey-nav-container .gooey-nav-inner ul li::after {
@@ -87,7 +103,7 @@
   opacity: 0;
   transform: scale(0);
   transition: all 0.3s ease;
-  z-index: -1;
+  z-index: -2;
 }
 
 .gooey-nav-container .gooey-nav-inner ul li.active {
@@ -95,9 +111,14 @@
   text-shadow: none;
 }
 
+[data-theme="light"] .gooey-nav-container .gooey-nav-inner ul li.active {
+  color: #fff; /* white text for active nav in light mode */
+}
+
 .gooey-nav-container .gooey-nav-inner ul li.active::after {
   opacity: 1;
   transform: scale(1);
+  z-index: -2; /* ensure behind text */
 }
 
 .gooey-nav-container .effect {
@@ -110,7 +131,7 @@
   pointer-events: none;
   display: grid;
   place-items: center;
-  z-index: 1;
+  z-index: -1; /* keep behind nav items */
 }
 
 .gooey-nav-container .effect.text {
@@ -118,6 +139,7 @@
   transition: color 0.3s ease;
   font-family: var(--mono);
   font-size: 0.95rem;
+  z-index: -1; /* keep behind nav items */
 }
 
 .gooey-nav-container .effect.text.active {
@@ -127,7 +149,7 @@
 /* Base effect layer (Dark Mode default) */
 .gooey-nav-container .effect.filter {
   filter: blur(7px) contrast(100) blur(0);
-  mix-blend-mode: lighten;
+  /* mix-blend-mode: lighten; */
 }
 
 .gooey-nav-container .effect.filter::before {
@@ -135,31 +157,31 @@
   position: absolute;
   inset: -75px;
   z-index: -2;
-  background: #000; /* Pure black canvas required for lighten blend */
+  background: transparent; /* Remove black canvas */
 }
 
 .gooey-nav-container .effect.filter::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: #fff; /* Pure white blob */
+  background: transparent; /* Remove white blob */
   transform: scale(0);
   opacity: 0;
-  z-index: -1;
+  z-index: -2;
   border-radius: 100vw;
 }
 
 /* Light Mode Overrides */
 [data-theme="light"] .gooey-nav-container .effect.filter {
-  mix-blend-mode: darken;
+  /* mix-blend-mode: darken; */
 }
 
 [data-theme="light"] .gooey-nav-container .effect.filter::before {
-  background: #fff; /* Pure white canvas required for darken blend */
+  background: transparent; /* No canvas needed */
 }
 
 [data-theme="light"] .gooey-nav-container .effect.filter::after {
-  background: #000; /* Pure black blob */
+  background: transparent; /* No blob needed */
 }
 
 .gooey-nav-container .effect.active::after {
@@ -252,3 +274,4 @@
     opacity: 0;
   }
 }
+

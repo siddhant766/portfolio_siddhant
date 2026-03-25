@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import GooeyNav from './GooeyNav';
-import { FaLaptopCode } from 'react-icons/fa';
+import logo from '../assets/logo.png';
+
 
 export default function Navbar({ toggleTheme, theme }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <nav>
-      <div className="nav-logo" style={{ fontSize: '1.5rem', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-        <FaLaptopCode className="nav-logo-icon" />
-        <em>Siddhant Patel</em>
+      <div className="nav-logo">
+        <img src={logo} alt="Logo" />
       </div>
       <div className="nav-links" style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
         <GooeyNav

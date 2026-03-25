@@ -108,4 +108,20 @@ router.patch('/messages/:id', auth, async (req, res) => {
   }
 });
 
+// ─────────────────────────────────────────
+// DELETE /api/admin/messages/:id  (Protected - delete message)
+// ─────────────────────────────────────────
+router.delete('/messages/:id', auth, async (req, res) => {
+  try {
+    const message = await Contact.findByIdAndDelete(req.params.id);
+    if (!message) {
+      return res.status(404).json({ success: false, error: 'Message not found.' });
+    }
+    res.json({ success: true, message: 'Message deleted successfully.' });
+  } catch (err) {
+    console.error('Delete message error:', err);
+    res.status(500).json({ success: false, error: 'Failed to delete message.' });
+  }
+});
+
 module.exports = router;

@@ -22,7 +22,7 @@ export default function Contact() {
       errors.name = "Please enter your name (min 2 chars).";
       valid = false;
     }
-    const emailRx = /^\\S+@\\S+\\.\\S+$/;
+    const emailRx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRx.test(formData.email.trim())) {
       errors.email = "Please enter a valid email address.";
       valid = false;

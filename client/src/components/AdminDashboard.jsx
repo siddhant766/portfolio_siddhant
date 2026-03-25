@@ -71,6 +71,28 @@ export default function AdminDashboard() {
     }
   };
 
+  const deleteMessage = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this message?")) return;
+    
+    try {
+      const res = await fetch(`http://127.0.0.1:5000/api/admin/messages/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const data = await res.json();
+      if (data.success) {
+        setMessages(messages.filter(m => m._id !== id));
+      } else {
+        alert(data.error || 'Failed to delete message');
+      }
+    } catch (err) {
+      console.error('Failed to delete message:', err);
+      alert('An error occurred while deleting the message.');
+    }
+  };
+
   if (loading) {
     return (
       <div style={{
@@ -218,19 +240,32 @@ export default function AdminDashboard() {
                     {new Date(msg.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
                   </span>
                 </div>
-                {msg.status === 'unread' && (
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  {msg.status === 'unread' && (
+                    <button
+                      onClick={() => markAsRead(msg._id)}
+                      style={{
+                        background: 'var(--bg3)', border: '1px solid var(--line)',
+                        borderRadius: '4px', padding: '6px 12px', cursor: 'pointer',
+                        fontFamily: 'var(--mono)', fontSize: '0.75rem', color: 'var(--t2)',
+                        whiteSpace: 'nowrap'
+                      }}
+                    >
+                      Mark Read
+                    </button>
+                  )}
                   <button
-                    onClick={() => markAsRead(msg._id)}
+                    onClick={() => deleteMessage(msg._id)}
                     style={{
-                      background: 'var(--bg3)', border: '1px solid var(--line)',
+                      background: 'rgba(248,113,113,0.1)', border: '1px solid rgba(248,113,113,0.3)',
                       borderRadius: '4px', padding: '6px 12px', cursor: 'pointer',
-                      fontFamily: 'var(--mono)', fontSize: '0.75rem', color: 'var(--t2)',
+                      fontFamily: 'var(--mono)', fontSize: '0.75rem', color: '#f87171',
                       whiteSpace: 'nowrap'
                     }}
                   >
-                    Mark Read
+                    Delete
                   </button>
-                )}
+                </div>
               </div>
             ))}
           </div>

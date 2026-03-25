@@ -103,15 +103,15 @@ nav {
 }
 
 .nav-logo {
-  font-size: 1.1rem;
-  font-weight: 700;
-  letter-spacing: -.02em;
-  color: var(--t1);
+  display: flex;
+  align-items: center;
+  height: 50px; /* reduced logo size */
+  margin-right: 1rem;
 }
 
-.nav-logo em {
-  color: var(--ac);
-  font-style: normal;
+.nav-logo img {
+  height: 100%;
+  width: auto;
 }
 
 .nav-links {

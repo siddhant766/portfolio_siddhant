@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState } from 'react';
 import './GooeyNav.css';
 
+
 const GooeyNav = ({
   items,
   animationTime = 600,
@@ -148,6 +149,7 @@ const GooeyNav = ({
   return (
     <div className="gooey-nav-container" ref={containerRef}>
       <div className="gooey-nav-inner">
+
         <ul ref={navRef}>
           {items.map((item, index) => (
             <li key={index} className={activeIndex === index ? 'active' : ''}>
